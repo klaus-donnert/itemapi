@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Item Manager</title>
+    <link rel="stylesheet" href="https://bootswatch.com/3/simplex/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/itemmanager/">Item Manager</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/itemmanager/">Home</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+
+    <h3>Add Item</h3>
+    <form id="itemform">
+        <div class="form-group">
+            <label>Text</label>
+            <input type="text" id="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Body</label>
+            <textarea id="body" class="form-control"></textarea>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+    <br>
+    <hr>
+    <br>
+    <ul id="items" class="list-group"></ul>
+</div>
+
+
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script>
+    (function () {
+        getItems()
+
+        // get items from the API
+        function getItems() {
+            $.ajax({
+                url: 'http://itemapi.dev/api/items',
+            }).done(function (items) {
+                let output = ''
+                $.each(items, function (key, item) {
+                    output += itemTemplate(item)
+                })
+                $('#items').append(output)
+            })
+        }
+
+        function itemTemplate(item) {
+            return `<li class="item" data-id="${item.id}">
+                        <strong>${item.text}: </strong>${item.body}
+                        <a href="#" class="item-delete" data-id="${item.id}"><small>Delete</small></a>
+                    </li>`;
+        }
+
+        // submit event
+        $('#itemform').on('submit', function (e) {
+            e.preventDefault()
+            let text = $('#text').val();
+            let body = $('#body').val();
+
+            addItems(text, body)
+        })
+        $('body').on('click', '.item-delete', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            deleteItem(id)
+
+        })
+
+        // delete via api
+        function deleteItem(id) {
+            $.ajax({
+                url: 'http://itemapi.dev/api/items/' + id,
+                method: 'POST',
+                data: { _method: 'DELETE', id:id }
+            }).done(function (response) {
+                let items = $('li.item')
+                $.each( items, function (key, item) {
+                    console.log(response.id + ': ' + $(this).data('id'))
+                    if( response.id == $(this).data('id') ){
+                        $(this).hide()
+                    }
+                })
+            })
+        }
+
+        // add items using the api
+        function addItems(text, body) {
+            $.ajax({
+                url: 'http://itemapi.dev/api/items',
+                method: 'POST',
+                data: {text: text, body: body}
+            })
+                .done(function (item) {
+                    $('#items').append(itemTemplate(item))
+                    $('#itemform').find("input[type=text], textarea").val("");
+                })
+        }
+
+    })()
+
+</script>
+
+</body>
+</html>

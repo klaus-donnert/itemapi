@@ -92,7 +92,7 @@ class ItemsController extends Controller
         $item = Item::find($id);
         $item->delete();
 
-        $response = ['response' => 'Item Deleted', 'success' => true];
+        $response = ['response' => 'Item Deleted', 'id' => "$id", 'success' => true];
         return $response;
     }
 }
