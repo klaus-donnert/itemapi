@@ -61,7 +61,7 @@
         // get items from the API
         function getItems() {
             $.ajax({
-                url: 'http://itemapi.dev/api/items',
+                url: 'http://itemapi.donnert.us/api/items',
             }).done(function (items) {
                 let output = ''
                 $.each(items, function (key, item) {
@@ -96,7 +96,7 @@
         // delete via api
         function deleteItem(id) {
             $.ajax({
-                url: 'http://itemapi.dev/api/items/' + id,
+                url: 'http://itemapi.donnert.us/api/items/' + id,
                 method: 'POST',
                 data: { _method: 'DELETE', id:id }
             }).done(function (response) {
@@ -113,7 +113,7 @@
         // add items using the api
         function addItems(text, body) {
             $.ajax({
-                url: 'http://itemapi.dev/api/items',
+                url: 'http://itemapi.donnert.us/api/items',
                 method: 'POST',
                 data: {text: text, body: body}
             })
