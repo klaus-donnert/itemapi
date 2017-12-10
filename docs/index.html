@@ -62,7 +62,7 @@
         // get items from the API
         function getItems() {
             $.ajax({
-                url: 'http://itemapi.donnert.us/api/items',
+                url: 'https://itemapi.donnert.us/api/items',
             }).done(function (items) {
                 let output = ''
                 $.each(items, function (key, item) {
