@@ -30,8 +30,9 @@
 </nav>
 
 <div class="container">
-
-    <h3>Add Item</h3>
+    <h3>A Simple API Playground</h3>
+    <p>Text items are added or delete via ajax.
+    <h4>Add Item</h4>
     <form id="itemform">
         <div class="form-group">
             <label>Text</label>
@@ -96,7 +97,7 @@
         // delete via api
         function deleteItem(id) {
             $.ajax({
-                url: 'http://itemapi.donnert.us/api/items/' + id,
+                url: 'https://itemapi.donnert.us/api/items/' + id,
                 method: 'POST',
                 data: { _method: 'DELETE', id:id }
             }).done(function (response) {
@@ -113,7 +114,7 @@
         // add items using the api
         function addItems(text, body) {
             $.ajax({
-                url: 'http://itemapi.donnert.us/api/items',
+                url: 'https://itemapi.donnert.us/api/items',
                 method: 'POST',
                 data: {text: text, body: body}
             })
