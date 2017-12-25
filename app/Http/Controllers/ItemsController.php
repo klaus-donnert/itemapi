@@ -74,7 +74,7 @@ class ItemsController extends Controller
         }else{
             $item = Item::find($id);
             $item->text = $request->input('text');
-            $item->body = $request->input('body');
+            $item->body = $request->input('body')?:'';
             $item->save();
 
             return $item;
