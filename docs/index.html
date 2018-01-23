@@ -58,17 +58,17 @@
         crossorigin="anonymous"></script>
 <script>
     (function () {
-        getItems()
+        getItems();
 
         // get items from the API
         function getItems() {
             $.ajax({
                 url: 'https://itemapi.donnert.us/api/items',
             }).done(function (items) {
-                let output = ''
+                let output = '';
                 $.each(items, function (key, item) {
                     output += itemTemplate(item)
-                })
+                });
                 $('#items').append(output)
             })
         }
@@ -82,18 +82,18 @@
 
         // submit event
         $('#itemform').on('submit', function (e) {
-            e.preventDefault()
+            e.preventDefault();
             let text = $('#text').val();
-            let body = $('#body').val() + 'test';
+            let body = $('#body').val();
 
             addItems(text, body)
-        })
+        });
         $('body').on('click', '.item-delete', function (e) {
             e.preventDefault();
             let id = $(this).data('id');
             deleteItem(id)
 
-        })
+        });
 
         // delete via api
         function deleteItem(id) {
@@ -102,7 +102,7 @@
                 method: 'POST',
                 data: { _method: 'DELETE', id:id }
             }).done(function (response) {
-                let items = $('li.item')
+                let items = $('li.item');
                 $.each( items, function (key, item) {
                     console.log(response.id + ': ' + $(this).data('id'))
                     if( response.id == $(this).data('id') ){
@@ -120,7 +120,7 @@
                 data: {text: text, body: body}
             })
                 .done(function (item) {
-                    $('#items').append(itemTemplate(item))
+                    $('#items').append(itemTemplate(item));
                     $('#itemform').find("input[type=text], textarea").val("");
                 })
         }
