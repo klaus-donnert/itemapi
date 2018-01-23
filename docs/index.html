@@ -31,8 +31,8 @@
 </nav>
 
 <div class="container">
-    <h3>A Simple API Playground</h3>
-    <p>Text items are added or deleted via ajax api calls.
+    <h3>A Simple Todo List</h3>
+    <p>Items are added or deleted via ajax api calls.
     <h4>Add Item</h4>
     <form id="itemform">
         <div class="form-group">
@@ -84,7 +84,7 @@
         $('#itemform').on('submit', function (e) {
             e.preventDefault()
             let text = $('#text').val();
-            let body = $('#body').val();
+            let body = $('#body').val() || ' ';
 
             addItems(text, body)
         })
